@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Sentiment Analysis for {{ symbol }}</title>
+</head>
+
+<body>
+    <h1>Sentiment Analysis for {{ symbol }}</h1>
+    <p>Average Sentiment: {{ sentiment }}</p>
+
+    {% if sentiment > 0 %}
+    <p style="color: green;">Positive Sentiment</p>
+    {% elif sentiment < 0 %} <p style="color: red;">Negative Sentiment</p>
+        {% else %}
+        <p style="color:gray;">Neutral Sentiment</p>
+        {% endif %}
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+phidata
+python-dotenv
+yfinance
+groq
+uvicorn
+duckduckgo-search
+fastapi
+packaging
+openai
+Flask
+gunicorn
+requests
+nltk
+alpha_vantage
+flask-dotenv
+newsapi-python

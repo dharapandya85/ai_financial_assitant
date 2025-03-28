@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Stock Market Chatbot</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #chat-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        .user-message {
+            text-align: right;
+            margin-bottom: 5px;
+        }
+
+        .bot-message {
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Stock Market Chatbot</h1>
+    <div id="chat-container">
+        <div class="bot-message">Hello! Ask me about stock prices, sentiment, or analysis.</div>
+    </div>
+    <div>
+        <input type="text" id="user-input" placeholder="Ask a question...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === '') return;
+            var chatContainer = document.getElementById('chat-container');
+
+            // Display user message
+            var userDiv = document.createElement('div');
+            userDiv.classList.add('user-message');
+            userDiv.textContent = 'You: ' + userInput;
+            chatContainer.appendChild(userDiv);
+
+            // Clear input
+            document.getElementById('user-input').value = '';
+
+            // Send message to the server
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'user_message=' + encodeURIComponent(userInput),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Display bot response
+                    var botDiv = document.createElement('div');
+                    botDiv.classList.add('bot-message');
+                    botDiv.textContent = 'Bot: ' + data.response;
+                    chatContainer.appendChild(botDiv);
+
+                    // Scroll to the bottom
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    var errorDiv = document.createElement('div');
+                    errorDiv.classList.add('bot-message');
+                    errorDiv.style.color = 'red';
+                    errorDiv.textContent = 'Bot: Error communicating with the server.';
+                    chatContainer.appendChild(errorDiv);
+                });
+        }
+    </script>
+</body>
+
+</html>

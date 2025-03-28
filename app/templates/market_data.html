@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Market Data for {{ symbol}}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Market Data for {{symbol}} </h1>
+    <table>
+        <thead>
+            <tr>
+                {% if data and data|length > 0 %}
+                {% for key in data[0].keys() %}
+                <th>{{ key }}</th>
+                {% endfor %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if data %}
+            {% for row in data %}
+            <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="6">No market data available.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>
